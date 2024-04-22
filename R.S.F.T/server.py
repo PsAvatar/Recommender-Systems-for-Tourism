@@ -95,17 +95,13 @@ def login():
     return render_template('Login.html')
 
 
-# Ορίζουμε το pattern για το email με χρήση regular expressions
 email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@(?:gmail\.com|hotmail\.com)$')
 
-# Έλεγχος αν το email πληροί τις προϋποθέσεις
 def is_valid_email(email):
     return bool(email_pattern.match(email))
 
-# Ορίζουμε το pattern για τον έλεγχο του password με χρήση regular expressions
 password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,._])[A-Za-z!-,._0-9]{8,}$')
 
-# Έλεγχος αν το password πληροί τις προϋποθέσεις
 def is_valid_password(password):
     return bool(password_pattern.match(password))
 
@@ -117,17 +113,14 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        # Έλεγχος αν το email πληροί τις προϋποθέσεις
         if not is_valid_email(email):
             flash('Invalid email format. Please use a valid email address.', 'error')
             return render_template(REGISTER_TEMPLATE, error_message='Invalid email format. Please use a valid email address.')
 
-        # Έλεγχος αν το password πληροί τις προϋποθέσεις
         if not is_valid_password(password):
             flash('Password must contain at least one lowercase letter, one uppercase letter, and one special character (! - . _) and must be at least 8 characters long.', 'error')
             return render_template(REGISTER_TEMPLATE, error_message='Password must contain at least one lowercase letter, one uppercase letter, and one special character (!-,._) and must be at least 8 characters long.')
 
-        # Έλεγχος αν το email υπάρχει ήδη στη βάση δεδομένων
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM login WHERE email = %s", (email,))
         existing_user = cur.fetchone()
