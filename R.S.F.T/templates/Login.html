@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #82d3de;
+        }
+        .container {
+            margin-top: 100px; /* Κενό 100px από την κορυφή της σελίδας */
+        }
+    </style>
+</head>
+<body>
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-lg-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h1>Login Page</h1>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/TourRecSys/Login">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <br>
+                    {% if data %}
+                    <h2>Data from Database:</h2>
+                    <ul>
+                        {% for row in data %}
+                        <li>{{ row.email }} - {{ row.password }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <div id="register-button">
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
